@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class MainApp {
 
@@ -6,58 +7,56 @@ public class MainApp {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        int userX;
-        int userY;
-        boolean gameOver = false;
 
-        int gridSize;
+        int userChoice;
 
-        System.out.println("Welcome to Mine-Sweeper");
+        System.out.println("How big do you want grid to be?");
+        userChoice = scan.nextInt();
 
-        gridSize = Validator.getInt(scan,
-                "Enter the size of your grid to play on (2 through 10): ",
-                2,
-                10);
+        int[][] answerGrid = new int[userChoice][userChoice];
+        String[][] userGrid = new String[userChoice][userChoice];
 
-        HiddenGrid hiddenGrid = new HiddenGrid(gridSize);
-        hiddenGrid.initializeGrid();
-        MirrorGrid mirrorGrid = new MirrorGrid(gridSize);
-        mirrorGrid.initializeGrid(0);
-        mirrorGrid.printGrid();
+        //TheGrids grid = new TheGrids(); why am I still able to call, w/out doing this?
+        TheGrids.createAnswerGrid(userChoice, answerGrid);
+        TheGrids.createUserGrid(userChoice, userGrid);
 
-        do {
-            userX = Validator.getInt(scan, "Enter the x axis of your guess: ", 0, gridSize - 1);
-            userY = Validator.getInt(scan, "Enter the y axis of your guess: ", 0, gridSize - 1);
-            String userMove = Validator.getFirstChar(scan, "Do you want to dig, or flag this spot?: ", "d", "f");
-
-            if (userMove.equals("f")) {
-                mirrorGrid.setCell(userX, userY, -2);
-                mirrorGrid.printGrid();
-            } else if (hiddenGrid.getCell(userX, userY) == -1) {
-                System.out.println("Oh no! That was a bomb. Game over.");
-                hiddenGrid.printGrid();
-                gameOver = true;
-            } else if (hiddenGrid.getCell(userX, userY) == 0) {
-                mirrorGrid.setCell(userX, userY, -3);
-                mirrorGrid.printGrid();
-            } else if (hiddenGrid.getCell(userX, userY) > 0) {
-                GridHelper.copyHiddenCellToMirror(userX, userY, hiddenGrid, mirrorGrid);
-                mirrorGrid.printGrid();
-            }
-        } while (!gameOver);
+        System.out.println(Arrays.deepToString(answerGrid).replace("], ", "\n")); //FOR PRINTING ANSWER GRID, no axis
+        System.out.println(Arrays.deepToString(userGrid).replace("],", "\n")); //FOR PRINTING USER GRID, no axis
 
 
-
+        int userXGuess;
+        int userYGuess;
+        boolean bombFound = false;
+//
+//        do {
+//
+//            System.out.println("Enter X axis to guess: ");
+//            userXGuess = scan.nextInt();
+//
+//            System.out.println("Enter Y axis to guess: ");
+//            userYGuess = scan.nextInt();
+//
+//            if ((answerGrid[userYGuess][userXGuess]) == -1) {
+//                System.out.println("Oh no! That was a bomb! Game over. ");
+//                System.out.println("Here's what you were playing on: ");
+//                System.out.println();
+//                System.out.println(Arrays.deepToString(answerGrid).replace("],", "\n").replace("-1", "B"));
+//                bombFound = true;
+//            } else {
+//                for (int i = 0; i < userGrid.length; i++) {
+//                    for (int j = 0; j < userGrid.length; j++) {
+//                        userGrid[userYGuess][userXGuess] = String.valueOf(answerGrid[userYGuess][userXGuess]);
+//                    }
+//                }
+//                System.out.println(Arrays.deepToString(userGrid).replace("],", "\n"));
+//            }
+//
+//        } while (!bombFound);
+//    }
+//
+//
+//    //System.out.println(Arrays.deepToString(answerGrid).replace("], ", "\n"));
     }
-
-
-
-
-
-
-
-
-
-
 }
+
 
