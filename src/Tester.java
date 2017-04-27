@@ -59,17 +59,17 @@ public class Tester {
             System.out.println("Enter Y axis to guess: ");
             userYGuess = scan.nextInt();
 
-            if ((answerGrid[userXGuess][userYGuess]) == -1) {
+            if ((answerGrid[userYGuess][userXGuess]) == -1) {
                 System.out.println("Oh no! That was a bomb! Game over. ");
                 System.out.println("Here's what you were playing on: ");
                 System.out.println();
-                System.out.println(Arrays.deepToString(answerGrid).replace("],", "\n"));
+                System.out.println(Arrays.deepToString(answerGrid).replace("],", "\n").replace("-1", "B"));
                 bombFound = true;
             }
             else {
                 for (int i = 0; i < userGrid.length; i++) {
                     for (int j = 0; j < userGrid.length; j++) {
-                        userGrid[userXGuess][userYGuess] = String.valueOf(answerGrid[userXGuess][userYGuess]);
+                        userGrid[userYGuess][userXGuess] = String.valueOf(answerGrid[userYGuess][userXGuess]);
                     }
                 }
                 System.out.println(Arrays.deepToString(userGrid).replace("],", "\n"));
